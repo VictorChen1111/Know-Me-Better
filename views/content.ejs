@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Content</title>
+    <style>
+        body {
+            position: relative;
+        }
+        #copyButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #copyButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Instagram Content</h1>
+    <button id="copyButton" onclick="copyContent()">Copy Content</button>
+    <div id="content">
+        <% if (content.length) { %>
+            <% content.forEach(function(media) { %>
+                <div>
+                    <h4><%= media.caption %></h4>
+                    <img src="<%= media.media_url %>" alt="<%= media.caption %>" style="width: 300px;">
+                    <p>Taken on <%= new Date(media.timestamp).toDateString() %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No content to display.</p>
+        <% } %>
+    </div>
+    <a href="/logout">Logout</a>
+    <script>
+        function copyContent() {
+            const contentDiv = document.getElementById('content');
+            const range = document.createRange();
+            range.selectNode(contentDiv);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'successful' : 'unsuccessful';
+                alert('Copying content was ' + msg);
+            } catch (err) {
+                console.error('Failed to copy content: ', err);
+            }
+
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>
