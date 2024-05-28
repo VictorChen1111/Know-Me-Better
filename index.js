@@ -8,6 +8,10 @@ const { Configuration, OpenAIApi } = require('openai');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Set the views directory and view engine
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 // Instagram OAuth URL
 const instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_APP_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=user_profile,user_media&response_type=code`;
 
@@ -20,8 +24,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
 
 // Route for the login page
 app.get('/', (req, res) => {
